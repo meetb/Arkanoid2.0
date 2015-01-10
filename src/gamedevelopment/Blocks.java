@@ -3,6 +3,7 @@ package gamedevelopment;
 import java.awt.*;
 import java.awt.geom.*;
 
+// This class extends the GameObject abstract class and implements the abstract functions.
 public class Blocks extends GameObject {
 
     private Color color;
@@ -38,11 +39,10 @@ public class Blocks extends GameObject {
         return rectangle;
     }
 
+    // Sinc the blocks aren't moving in the game there is no need to update it and move it around in the GameDevelopment Panel.
     public void update(GameDevelopment panel) {
     }
 
-    
-    
     public void paintComponent(Graphics2D g2) {
         rectangle.setFrame(x, y, width, height);
         g2.setColor(color);
