@@ -1,10 +1,12 @@
+// This is an abstract parent class with two abstract functions - update and paintComponent.
+
 package gamedevelopment;
 
 import java.awt.*;
 import java.awt.geom.*;
 
 public abstract class GameObject {
-
+    // Protected instance variables so player cannot change them outside of this class.
     protected int x;
     protected int y;
     protected int width;
@@ -19,6 +21,7 @@ public abstract class GameObject {
         this.color = color;
     }
 
+    // Various functions to get the instance variables and to set them to a different value.
     public void setX(int x) {
         this.x = x;
     }
@@ -50,7 +53,8 @@ public abstract class GameObject {
     public int getHeight() {
         return height;
     }
-
+    
+    // Abstract functions for the child classes to implement.
     public abstract void update(GameDevelopment panel);
 
     public abstract void paintComponent(Graphics2D g2);
