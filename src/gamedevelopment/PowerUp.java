@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+// This class also extends the GameObject abstract parent class and it ipmlements the abstract functions.
 public class PowerUp extends GameObject {
 
     private Rectangle2D rectangle;
@@ -17,7 +18,7 @@ public class PowerUp extends GameObject {
     private boolean collision;
     private String[] letters = {"E", "S", "F", "M", "L"};
 
-    // type: 0 = Enlarge, 1 = slow, 2 = speed, 3 = multi, 4 = life;
+    // type: 0 = Enlarge, 1 = slow, 2 = speed, 3 = multi, 4 = life; These are the types of PowerUps.
     public PowerUp(int x, int y, int width, int height, double speed, int place, int type, Color colour) {
         super(x, y, width, height, colour);
         this.speed = speed;
@@ -27,6 +28,7 @@ public class PowerUp extends GameObject {
         rectangle = new Rectangle2D.Double(x, y, width, height);
     }
 
+    // Whenever the powerup is released from a block, it falls and collides with the playerBoard so this updates the position of the powerUp after it starts falling.
     public void update(GameDevelopment panel) {
         y += speed;
     }
@@ -55,6 +57,7 @@ public class PowerUp extends GameObject {
         return rectangle;
     }
 
+    // Paints the component and it also adds the Type name in the last name on the powerUp for visuals for the player.
     public void paintComponent(Graphics2D g2) {
         rectangle.setFrame(x, y, width, height);
         g2.setColor(color);
