@@ -1,4 +1,8 @@
+//This is the main file of this project.
+
 package gamedevelopment;
+
+// Importing all the classes needed.
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,9 +17,10 @@ import static javax.swing.BorderFactory.createCompoundBorder;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
-public class GameDevelopment extends JPanel implements Runnable {
+public class GameDevelopment extends JPanel implements Runnable { // This class extends JPanel to add to a JFrame and implements type Runnable to run threads simultaneously with similar object instances
 
-    private ArrayList<GameObject> objects = new ArrayList<GameObject>();
+    //declaring global variables while keeping them private/final accordingly.
+    private ArrayList<GameObject> objects = new ArrayList<GameObject>(); // This arraylist grows as needed, and it stores all the objects of type GameObject.
     final Color[] colours = {Color.GREEN, new Color(76, 0, 153), Color.BLUE, Color.YELLOW, Color.RED, Color.GRAY};
     private boolean run = false;
     private boolean first = true;
@@ -25,6 +30,8 @@ public class GameDevelopment extends JPanel implements Runnable {
     final Random randG = new Random();
     final int x = 22;
     final int y = 60;
+    
+    //This is a keylistener which allows the program to detect when to move the player board when the arrow keys are pressed, released, or typed.
     private KeyListener keys = new KeyAdapter() {
         public void keyTyped(KeyEvent ke) {
         }
@@ -64,6 +71,7 @@ public class GameDevelopment extends JPanel implements Runnable {
         }
     };
 
+    // This is a mouselistener to add for mouse support and it lets go of the ball at the starting of the game when the left mouse button is clicked.
     private MouseListener mouseClick = new MouseAdapter() {
         public void mousePressed(MouseEvent e) {
             if (first) {
@@ -87,7 +95,8 @@ public class GameDevelopment extends JPanel implements Runnable {
         public void mouseClicked(MouseEvent e) {
         }
     };
-
+    
+    // This adds for mouse movement control and moves the player board when playing the game.
     private MouseMotionListener mouseMovement = new MouseAdapter() {
         public void mouseDragged(MouseEvent e) {
         }
@@ -135,7 +144,7 @@ public class GameDevelopment extends JPanel implements Runnable {
     }
 
     public GameDevelopment() {
-
+        // This creates the JFrame onto which the GameDevelopment panel will fit onto and all the gameobjects.
         JFrame frame = new JFrame();
         start.setPreferredSize(new Dimension(100, 50));
         start.addActionListener(new start());
@@ -154,7 +163,8 @@ public class GameDevelopment extends JPanel implements Runnable {
         frame.pack();
         setup(randG, x, y);
     }
-
+    
+    // Sets up the game in the starting by adding the ball, player board, and blocks.
     public void setup(Random randG, int x, int y) {
         objects.add(new Ball(this.getWidth() / 2, 469, 11, Color.RED, 0, 0));
         objects.add(new Player(this.getWidth() - 32, getHeight() - 92, 15, 10, 2, 2, Color.BLACK, 0, 3, -1));
@@ -167,7 +177,7 @@ public class GameDevelopment extends JPanel implements Runnable {
         //3rd life
         objects.add(new Player(this.getWidth() / 2 - 39, 482, 75, 12, 4, 4, Color.BLACK, 0, 3, -1));
         objects.add(new Player(this.getWidth() / 2 - 37, 480, 75, 12, 4, 4, Color.GRAY, 0, 3, -1));
-
+        
         while (objects.size() < 147) {
             int random = randG.nextInt(6);
             objects.add(new Blocks(x, y, 30, 13, colours[random], random + 1));
@@ -179,6 +189,7 @@ public class GameDevelopment extends JPanel implements Runnable {
             }
         }
 
+        // This for loop accounts for the powerups that have already been used up to make sure there are only a set amount in the game and randomly places it in one of the blocks.
         int[] alreadyUsed = new int[20];
         int place;
         //11
@@ -199,6 +210,7 @@ public class GameDevelopment extends JPanel implements Runnable {
         }
     }
 
+    // Since the GameObject arraylist composes of different child objects and classes, this method differentiates between them by returning the ith element at which a certain type of GameObject ends or starts in the arrayList named "objects".
     // 1 = ball, 2 = player, 3 = blocks, 4 = powerups
     public int checkInstance(int j) {
         for (int i = 0; i < objects.size(); i++) {
@@ -217,7 +229,8 @@ public class GameDevelopment extends JPanel implements Runnable {
         }
         return -1;
     }
-
+    
+    // This function takes care of the immediate consequences of the player getting a powerUp
     // type: 0 = Enlarge, 1 = slow, 2 = speed, 3 = multi, 4 = life;
     public void powerUp(int type) {
         System.out.println(type);
@@ -271,6 +284,7 @@ public class GameDevelopment extends JPanel implements Runnable {
                     ((Ball) objects.get(j)).collisions(objects.get(checkInstance(3) - 1), 10);
                 }
             }
+            // Takes care of the number of hits a certain block has taken and removes if appropriate.
             for (int i = checkInstance(3); i < objects.size() - (objects.size() - checkInstance(4)); i++) {
                 for (int j = checkInstance(2) - 1; j >= 0; j--) {
                     if (((Ball) objects.get(j)).checkCollisionBlock((Blocks) objects.get(i))) {
@@ -297,7 +311,7 @@ public class GameDevelopment extends JPanel implements Runnable {
                     break;
                 }
             }
-            //
+            // This checks if a player got a powerUp or not and removes it from the panel if the player got it.
             for (int j = checkInstance(4); j < objects.size(); j++) {
                 if (!run) {
                     break;
@@ -317,6 +331,7 @@ public class GameDevelopment extends JPanel implements Runnable {
                     break;
                 }
             }
+            // Adds a new ball if a life is lost.
             if (((Ball) objects.get(0)).getDeath()) {
                 objects.remove(checkInstance(2));
                 objects.remove(checkInstance(2));
@@ -329,7 +344,7 @@ public class GameDevelopment extends JPanel implements Runnable {
                 first = true;
                 pressed = false;
             }
-
+            // Checks if you lost all of your lives.
             if (checkInstance(2) == -1) {
                 removeKeyListener(keys);
                 removeMouseListener(mouseClick);
