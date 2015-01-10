@@ -3,6 +3,7 @@ package gamedevelopment;
 import java.awt.*;
 import java.awt.geom.*;
 
+// This class extends the GameObject parent abstract class, and it implements the abstract functions defined in GameObject.
 public class Ball extends GameObject {
 
     private int radius;
@@ -52,6 +53,7 @@ public class Ball extends GameObject {
         this.death = death;
     }
 
+    // Checks all possible collisions the ball can have, with the blocks, player board, powerups, and the walls, and ceiling of the gameDevelopment Panel.
     public boolean checkCollisionBlock(Blocks platform) {
         return circle.intersects(platform.getPlatform());
     }
@@ -85,6 +87,7 @@ public class Ball extends GameObject {
         }
     }
 
+    // Changes and updates the speed and direction of the ball according to the collision so it is always moving around in the panel.
     public void update(GameDevelopment panel) {
         if (x + xSpeed < 16) {
             x = 16;
